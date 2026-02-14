@@ -2,6 +2,7 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -17,6 +18,7 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -28,6 +30,34 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            ->profile()
+            ->userMenuItems([
+                'profile' => fn (Action $action) => $action->label(function () {
+                    if (Auth::check() && $user = Auth::user()) {
+                        $roleName = $user->roles->first()?->name ?? 'No Role';
+
+                        return "{$user->name} ({$roleName})";
+                    }
+
+                    return 'Profile';
+                }),
+            ])
+            ->brandName(function () {
+                if (Auth::check() && $user = Auth::user()) {
+                    // جلب الفرع المرتبط بالمستخدم
+                    $branch = $user->branch;
+
+                    if ($branch) {
+                        // إذا كان فرعاً رئيسياً، نضيف النص بين قوسين
+                        $mainBadge = $branch->is_main ? ' (Main Branch)' : '';
+
+                        return $branch->name.$mainBadge;
+                    }
+                }
+
+                // الاسم الافتراضي في حالة عدم وجود فرع أو قبل تسجيل الدخول
+                return 'Ahgzly Salon';
+            })
             ->colors([
                 'primary' => Color::Amber,
             ])
