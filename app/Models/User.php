@@ -50,6 +50,10 @@ class User extends Authenticatable implements FilamentUser, HasName
             if (Auth::check() && Auth::hasUser() && Auth::user()->salon_id && ! $user->salon_id) {
                 $user->salon_id = Auth::user()->salon_id;
             }
+            static::created(function ($user) {
+                // إذا كنت تستخدم Spatie Permissions
+                $user->assignRole('customer');
+            });
         });
     }
 
