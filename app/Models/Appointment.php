@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Appointment extends Model
 {
     protected $fillable = [
+        'reference_number',
         'branch_id', 'customer_id', 'employee_id', 'service_id',
         'appointment_date', 'start_time', 'end_time',
         'status', 'total_price', 'notes',
@@ -20,6 +21,18 @@ class Appointment extends Model
         'end_time' => 'datetime:H:i',
         'status' => AppointmentStatus::class,
     ];
+
+    protected static function booted()
+    {
+        static::creating(function ($appointment) {
+            do {
+                // توليد رقم عشوائي من 6 أرقام
+                $number = mt_rand(100000, 999999);
+            } while (self::where('reference_number', $number)->exists()); // التأكد من عدم تكراره في قاعدة البيانات
+
+            $appointment->reference_number = (string) $number;
+        });
+    }
 
     public function branch(): BelongsTo
     {

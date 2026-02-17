@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Staff extends User
 {
@@ -26,5 +27,12 @@ class Staff extends User
                 $query->where('name', '!=', 'Customer');
             });
         });
+    }
+
+    // Relationships
+    public function services(): BelongsToMany
+    {
+        // يجب تحديد اسم الجدول الوسيط، ومفتاح الموظف (user_id)، ومفتاح الخدمة (service_id)
+        return $this->belongsToMany(Service::class, 'service_user', 'user_id', 'service_id', 'id', 'id');
     }
 }
