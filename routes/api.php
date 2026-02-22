@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appointments/slots', [AppointmentController::class, 'getAvailableSlots']);
     Route::post('/appointments/create', [AppointmentController::class, 'store']);
     Route::get('/appointments/my-appointments', [AppointmentController::class, 'myAppointments']);
+    Route::patch('appointments/{appointment}/status', [AppointmentController::class, 'updateStatus']);
     // Route: Customer Profile
     Route::get('/profile', [AuthController::class, 'profile']);
     // Route: Logout

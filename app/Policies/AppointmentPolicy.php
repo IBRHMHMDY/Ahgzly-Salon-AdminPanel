@@ -32,7 +32,7 @@ class AppointmentPolicy
 
     public function update(User $user, Appointment $appointment): bool
     {
-        return $user->hasPermissionTo('update_appointment');
+        return $user->can('update_appointment') || $user->id === $appointment->employee_id;
     }
 
     public function delete(User $user, Appointment $appointment): bool

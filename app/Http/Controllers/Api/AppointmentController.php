@@ -48,11 +48,6 @@ class AppointmentController extends Controller
         $workingHour = BranchWorkingHour::where('branch_id', $branchId)
             ->where('day_of_week', $dayOfWeek)
             ->first();
-        // dd([
-        //     'Requested Day' => $dayOfWeek,
-        //     'Working Hour Found?' => $workingHour ? 'Yes' : 'No (Returned Null)',
-        //     'Is Closed?' => $workingHour ? $workingHour->is_closed : 'N/A',
-        // ]);
         // إذا لم يكن هناك إعدادات لهذا اليوم، أو كان اليوم مغلقاً (is_closed = true)
         if (! $workingHour || $workingHour->is_closed) {
             return response()->json(['available_slots' => []]);
@@ -181,6 +176,32 @@ class AppointmentController extends Controller
         // إرجاع مصفوفة من الـ Resources
         return response()->json([
             'appointments' => \App\Http\Resources\Api\AppointmentResource::collection($appointments),
+        ]);
+    }
+
+   public function updateStatus(Request $request, Appointment $appointment)
+    {
+        // 1. التحقق من الصلاحيات (Authorization) باستخدام الـ Policy
+        $this->authorize('update', $appointment);
+
+        // 2. التحقق من البيانات المرسلة
+        $validated = $request->validate([
+            'status' => ['required', Rule::in(['Confirmed', 'Cancelled', 'Completed'])],
+        ]);
+
+        // 3. تحديث الحالة
+        $appointment->update([
+            'status' => $validated['status']
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'تم تحديث حالة الحجز بنجاح',
+            'data' => [
+                'id' => $appointment->id,
+                'status' => $appointment->status,
+                'reference_number' => $appointment->reference_number,
+            ]
         ]);
     }
 }
