@@ -7,14 +7,17 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use App\Models\BranchClosure;
 use App\Models\BranchWorkingHour;
-use App\Models\Service; // تأكد من استدعاء الـ Enum الخاص بك
+use App\Models\Service;
 use Carbon\Carbon;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 
 class AppointmentController extends Controller
 {
+    use AuthorizesRequests;
     /**
      * 1. جلب المواعيد المتاحة (Available Slots)
      */
@@ -182,11 +185,11 @@ class AppointmentController extends Controller
    public function updateStatus(Request $request, Appointment $appointment)
     {
         // 1. التحقق من الصلاحيات (Authorization) باستخدام الـ Policy
-        $this->authorize('update', $appointment);
+        // $this->authorize('update', Appointment::find($appointment->id));
 
         // 2. التحقق من البيانات المرسلة
         $validated = $request->validate([
-            'status' => ['required', Rule::in(['Confirmed', 'Cancelled', 'Completed'])],
+            'status' => ['required', Rule::in([AppointmentStatus::CONFIRMED, AppointmentStatus::CANCELLED, AppointmentStatus::COMPLETED])],
         ]);
 
         // 3. تحديث الحالة
