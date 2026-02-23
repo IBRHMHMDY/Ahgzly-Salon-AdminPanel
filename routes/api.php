@@ -3,7 +3,9 @@
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CatalogController;
+use App\Http\Controllers\Api\ProfileController;
 use Illuminate\Support\Facades\Route;
+
 
 /*****************Public Routes**********************/
 // Routes: Auth
@@ -24,7 +26,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/appointments/my-appointments', [AppointmentController::class, 'myAppointments']);
     Route::post('appointments/{appointment}/status', [AppointmentController::class, 'updateStatus']);
     // Route: Customer Profile
-    Route::get('/profile', [AuthController::class, 'profile']);
+    Route::get('profile', [ProfileController::class, 'show']);
+    Route::patch('profile/edit', [ProfileController::class, 'update']);
     // Route: Logout
     Route::post('/logout', [AuthController::class, 'logout']);
 });
