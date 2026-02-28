@@ -1,59 +1,228 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💇‍♂️ Ahgzly Salon Booking System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+### Production-Ready Laravel Backend + Admin Dashboard
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🔎 Project Summary
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Ahgzly Salon is a professionally engineered booking management system designed for single-salon businesses with multi-branch capability.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+It provides:
 
-## Learning Laravel
+* A powerful Admin Dashboard built with Filament v4
+* Secure REST API for mobile apps (Flutter-ready)
+* Smart booking engine with slot calculation logic
+* Role-based access control
+* Clean architecture & scalable design
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+This project is structured as a portfolio-ready MVP demonstrating production-level backend development.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🏗 System Architecture
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+* **Backend:** Laravel 12
+* **Admin Dashboard:** Filament v4
+* **Authentication:** Laravel Sanctum (Token-Based)
+* **Authorization:** Spatie Roles & Permissions
+* **Database:** MySQL
+* **Design Pattern:** Service-Oriented + Resource-based API
+* **Architecture Style:** Clean & Scalable (Single-Salon, Multi-Branch Ready)
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 🚀 Key Features
 
-## Contributing
+### 🏢 Multi-Branch Ready Structure
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+* Manage multiple branches under one salon
+* Branch-specific working hours
+* Branch-specific staff and services
+* Exceptional closures support
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 📅 Smart Appointment Engine
 
-## Security Vulnerabilities
+The system includes a custom-built slot calculation engine that:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+* Generates available time slots dynamically
+* Respects working hours
+* Handles overnight shifts
+* Prevents double bookings
+* Excludes exceptional closures
+* Calculates based on service duration
 
-## License
+Booking Status Workflow:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+* Pending
+* Confirmed
+* Cancelled
+* Completed
+
+---
+
+### 👥 Staff & Services Management
+
+* Assign services to specific employees
+* Filter employees by service
+* Control service duration
+* Manage availability per branch
+
+---
+
+### 🔐 Security & Access Control
+
+* Sanctum API authentication
+* Token-based secure access
+* Role-based permissions via Spatie
+* Policy-driven authorization
+* Scoped branch-based data handling
+
+---
+
+## 📡 API Overview
+
+Base URL:
+
+```
+/api
+```
+
+### Public Endpoints
+
+```
+GET  /api/catalog/branches
+GET  /api/catalog/services
+GET  /api/catalog/staff
+```
+
+---
+
+### Protected Endpoints (Sanctum Required)
+
+#### Profile
+
+```
+GET   /api/profile
+PATCH /api/profile
+POST  /api/logout
+```
+
+#### Appointments
+
+```
+GET  /api/appointments/slots
+POST /api/appointments/create
+GET  /api/appointments/mine
+POST /api/appointments/{id}/status
+```
+
+Authentication Header:
+
+```
+Authorization: Bearer {token}
+Accept: application/json
+```
+
+---
+
+## 🖥 Admin Dashboard
+
+Dashboard URL:
+
+```
+/admin
+```
+
+Includes:
+
+* Branch Management
+* Services Management
+* Staff Management
+* Appointment Management
+* Statistics Widgets
+* Dynamic Branding per Branch
+
+Built with Filament v4 for high-performance admin interfaces.
+
+---
+
+## 🧪 Technical Highlights (What Makes This Project Strong)
+
+* Clean separation between API & Admin logic
+* Appointment overlap protection logic
+* Proper REST resource responses
+* Token-based stateless API
+* Extendable architecture
+* Production-ready structure
+* Designed for Flutter integration
+
+---
+
+## ⚙️ Installation Guide
+
+```bash
+git clone https://github.com/IBRHMHMDY/Ahgzly-Salon-AdminPanel.git
+cd Ahgzly-Salon-AdminPanel
+composer install
+cp .env.example .env
+php artisan key:generate
+php artisan migrate
+php artisan serve
+```
+
+Access:
+
+```
+http://127.0.0.1:8000/admin
+```
+
+---
+
+## 🧠 Intended Use Cases
+
+* Salon Booking Systems
+* Clinic Booking Systems
+* Barbershop Management
+* Service-based Businesses
+* MVP for SaaS Salon Platform
+
+---
+
+## 📈 Future Scalability
+
+The system is designed to support:
+
+* Multi-tenant SaaS architecture
+* Payment gateways
+* Notifications (SMS / Email)
+* Mobile push integration
+* Reporting system
+* CI/CD integration
+* Automated testing
+
+---
+
+## 📌 Why This Project Stands Out
+
+✔ Real-world booking logic
+✔ Clean architecture
+✔ Security-focused design
+✔ Mobile-ready API
+✔ Expandable to SaaS model
+✔ Professional admin experience
+
+---
+
+## 👨‍💻 Author
+
+Developed as a production-grade backend system demonstrating advanced Laravel architecture and API design.
+
+---
+
+## 📜 License
+
+MIT License
+
